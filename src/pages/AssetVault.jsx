@@ -254,22 +254,10 @@ const AssetVault = () => {
                                 </div>
 
                                 <div className="p-4">
-                                    <h4 className="text-xs font-bold text-slate-800 truncate mb-1">{asset.name}</h4>
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{asset.type}</span>
-                                        <span className="w-1 h-1 rounded-full bg-slate-200"></span>
-                                        <span className="text-[9px] font-bold text-slate-400">{formatFileSize(asset.fileSize)}</span>
-                                    </div>
-                                    <div className="flex items-center gap-2 mt-4">
-                                        <button 
-                                            onClick={() => handleCopy(asset.url, asset._id)}
-                                            className="flex-1 flex items-center justify-center gap-2 bg-slate-50 text-slate-500 py-2 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all"
-                                        >
-                                            {copiedId === asset._id ? <><Check size={12} /> Copied</> : <><Copy size={12} /> Copy URL</>}
-                                        </button>
-                                        <a href={asset.url} target="_blank" rel="noreferrer" className="p-2 bg-slate-50 text-slate-500 rounded-lg hover:bg-slate-200 transition-all">
-                                            <ExternalLink size={12} />
-                                        </a>
+                                    <h4 className="text-xs font-bold text-slate-800 truncate mb-1" title={asset.name}>{asset.name}</h4>
+                                    <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-100">
+                                        <span className="text-[10px] font-bold text-indigo-600 uppercase tracking-wider bg-indigo-50 px-2 py-0.5 rounded-md">{asset.type}</span>
+                                        <span className="text-[10px] font-semibold text-slate-400">{formatFileSize(asset.fileSize)}</span>
                                     </div>
                                 </div>
                             </div>

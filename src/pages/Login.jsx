@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
-import { ShieldCheck, Phone, Lock, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, Phone, Lock, CheckCircle2, ArrowRight } from 'lucide-react';
 
 const Login = () => {
     const [phone, setPhone] = useState('');
@@ -25,80 +25,91 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-[#0f0e17] relative overflow-hidden font-inter">
-            {/* Glowing Blobs */}
-            <div className="blob-bg top-[-10%] left-[-10%] opacity-40"></div>
-            <div className="blob-bg bottom-[-10%] right-[-10%] opacity-30 scale-150"></div>
-            
-            <div className="w-full max-w-md p-6 relative z-10">
-                <div className="text-center mb-10">
-                    <div className="w-20 h-20 bg-[rgba(79,70,229,0.1)] border border-[rgba(79,70,229,0.2)] rounded-3xl mx-auto flex items-center justify-center mb-6 shadow-2xl shadow-[#4f46e5]/10">
-                        <ShieldCheck className="text-[#4f46e5]" size={40} />
+        <div className="min-h-screen flex items-center justify-center bg-[#f8fafc] relative overflow-hidden font-sans p-4">
+            {/* Subtle light background ambient accents */}
+            <div className="absolute -top-40 -left-40 w-96 h-96 bg-indigo-200/40 rounded-full blur-3xl pointer-events-none"></div>
+            <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-violet-200/40 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div className="w-full max-w-md relative z-10">
+                <div className="text-center mb-8">
+                    <div className="w-20 h-20 bg-slate-950 rounded-2xl mx-auto flex items-center justify-center p-3 mb-4 shadow-xl shadow-slate-900/10 border border-slate-800">
+                        <img src="/logo.png" alt="MANASKEDAR" className="w-full h-full object-contain" />
                     </div>
-                    <div className="flex justify-center gap-4 mb-4">
-                        <span className="text-white font-black text-sm uppercase tracking-widest border-b-2 border-[#4f46e5] pb-1">Sign In</span>
-                        <Link to="/register" className="text-[rgba(255,255,255,0.2)] font-black text-sm uppercase tracking-widest hover:text-white transition-all">Sign Up</Link>
+                    
+                    <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">MANASKEDAR</h2>
+                    <p className="text-xs font-semibold text-slate-500 mt-1 uppercase tracking-wider">Administrator Sign In</p>
+
+                    <div className="inline-flex bg-slate-100 p-1 rounded-xl mt-6 border border-slate-200/80">
+                        <span className="px-5 py-1.5 rounded-lg bg-white text-indigo-700 font-bold text-xs shadow-sm">
+                            Sign In
+                        </span>
+                        <Link to="/register" className="px-5 py-1.5 rounded-lg text-slate-500 hover:text-slate-900 font-semibold text-xs transition-colors">
+                            Register
+                        </Link>
                     </div>
-                    <h2 className="text-4xl font-black text-white tracking-tighter mb-2">Platform Portal</h2>
-                    <p className="text-[rgba(255,255,255,0.4)] font-bold text-sm tracking-wide">Secure administrative access controlled</p>
                 </div>
 
-                <div className="frosted-card p-10">
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="bg-white border border-slate-200/80 rounded-2xl p-8 shadow-xl shadow-slate-200/60">
+                    <form onSubmit={handleSubmit} className="space-y-5">
                         <div>
-                            <label className="block text-[10px] font-black text-[rgba(255,255,255,0.5)] uppercase tracking-widest mb-2 ml-1">Phone Terminal</label>
+                            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                                Phone Number
+                            </label>
                             <div className="relative">
-                                <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-[rgba(255,255,255,0.2)]" size={18} />
+                                <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={17} />
                                 <input
                                     type="text"
-                                    placeholder="+91 00000 00000"
+                                    placeholder="+91 98765 43210"
                                     value={phone}
                                     onChange={(e) => setPhone(e.target.value)}
-                                    className="input-field pl-12"
+                                    className="input-field pl-10"
                                     required
                                 />
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-[10px] font-black text-[rgba(255,255,255,0.5)] uppercase tracking-widest mb-2 ml-1">Access Key</label>
+                            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                                Password
+                            </label>
                             <div className="relative">
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-[rgba(255,255,255,0.2)]" size={18} />
+                                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={17} />
                                 <input
                                     type="password"
                                     placeholder="••••••••"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="input-field pl-12"
+                                    className="input-field pl-10"
                                     required
                                 />
                             </div>
                         </div>
 
                         {error && (
-                            <div className="flex items-center gap-3 bg-rose-500/10 text-rose-500 p-4 rounded-xl border border-rose-500/20 text-xs font-bold animate-pulse">
-                                AUTH ERROR: {error}
+                            <div className="flex items-center gap-2.5 bg-rose-50 text-rose-700 p-3.5 rounded-xl border border-rose-200 text-xs font-semibold">
+                                <span className="w-1.5 h-1.5 rounded-full bg-rose-600"></span>
+                                <span>{error}</span>
                             </div>
                         )}
 
                         <button 
                             type="submit" 
                             disabled={loading}
-                            className="w-full btn-primary py-4 flex items-center justify-center gap-3"
+                            className="w-full btn-primary py-3.5 mt-2"
                         >
-                            {loading ? 'Decrypting...' : (
+                            {loading ? 'Verifying Credentials...' : (
                                 <>
                                     <span>Access Dashboard</span>
-                                    <CheckCircle2 size={18} />
+                                    <ArrowRight size={16} />
                                 </>
                             )}
                         </button>
                     </form>
                 </div>
                 
-                <p className="mt-12 text-center text-[10px] text-[rgba(255,255,255,0.2)] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-2">
-                    <Lock size={12} />
-                    <span>256-BIT AES ENCRYPTION SECURED</span>
+                <p className="mt-8 text-center text-xs text-slate-400 font-medium flex items-center justify-center gap-2">
+                    <Lock size={13} className="text-slate-400" />
+                    <span>Protected Admin Area • 256-Bit SSL Encrypted</span>
                 </p>
             </div>
         </div>

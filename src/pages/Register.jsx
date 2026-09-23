@@ -1,110 +1,132 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../utils/api';
-import { UserPlus, Phone, Lock, User as UserIcon, Sparkles } from 'lucide-react';
+import { UserPlus, Phone, Lock, User as UserIcon, Sparkles, ArrowRight } from 'lucide-react';
 
 const Register = () => {
     const [formData, setFormData] = useState({ name: '', phone: '', password: '' });
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
+        setLoading(true);
         try {
             await api.post('/auth/admin-register', formData);
             setSuccess(true);
-            setTimeout(() => navigate('/login'), 2000);
+            setTimeout(() => navigate('/login'), 1500);
         } catch (err) {
-            setError(err.response?.data?.error || 'Registration failed');
+            setError(err.response?.data?.error || 'Registration failed. Please verify credentials.');
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-[#0f0e17] relative overflow-hidden font-inter">
-            {/* Glowing Blobs */}
-            <div className="blob-bg top-[-10%] right-[-10%] opacity-40 scale-150 rotate-45"></div>
-            <div className="blob-bg bottom-[-10%] left-[-10%] opacity-30"></div>
+        <div className="min-h-screen flex items-center justify-center bg-[#f8fafc] relative overflow-hidden font-sans p-4">
+            {/* Ambient subtle light glows */}
+            <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-200/40 rounded-full blur-3xl pointer-events-none"></div>
+            <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-violet-200/40 rounded-full blur-3xl pointer-events-none"></div>
 
-            <div className="w-full max-w-lg p-6 relative z-10">
-                <div className="text-center mb-10">
-                    <div className="w-20 h-20 bg-[rgba(79,70,229,0.1)] border border-[rgba(79,70,229,0.2)] rounded-3xl mx-auto flex items-center justify-center mb-6 shadow-2xl shadow-[#4f46e5]/10">
-                        <UserPlus className="text-[#4f46e5]" size={40} />
+            <div className="w-full max-w-md relative z-10">
+                <div className="text-center mb-8">
+                    <div className="w-20 h-20 bg-slate-950 rounded-2xl mx-auto flex items-center justify-center p-3 mb-4 shadow-xl shadow-slate-900/10 border border-slate-800">
+                        <img src="/logo.png" alt="MANASKEDAR" className="w-full h-full object-contain" />
                     </div>
-                    <div className="flex justify-center gap-4 mb-4">
-                        <Link to="/login" className="text-[rgba(255,255,255,0.2)] font-black text-sm uppercase tracking-widest hover:text-white transition-all">Sign In</Link>
-                        <span className="text-white font-black text-sm uppercase tracking-widest border-b-2 border-[#4f46e5] pb-1">Sign Up</span>
+                    <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">Create Profile</h2>
+                    <p className="text-xs font-semibold text-slate-500 mt-1 uppercase tracking-wider">Register Admin Account</p>
+
+                    <div className="inline-flex bg-slate-100 p-1 rounded-xl mt-6 border border-slate-200/80">
+                        <Link to="/login" className="px-5 py-1.5 rounded-lg text-slate-500 hover:text-slate-900 font-semibold text-xs transition-colors">
+                            Sign In
+                        </Link>
+                        <span className="px-5 py-1.5 rounded-lg bg-white text-indigo-700 font-bold text-xs shadow-sm">
+                            Register
+                        </span>
                     </div>
-                    <h2 className="text-4xl font-black text-white tracking-tighter mb-2">Create Identity</h2>
-                    <p className="text-[rgba(255,255,255,0.4)] font-bold text-sm tracking-wide">Register your administrative profile</p>
                 </div>
 
-                <div className="frosted-card p-10">
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="bg-white border border-slate-200/80 rounded-2xl p-8 shadow-xl shadow-slate-200/60">
+                    <form onSubmit={handleSubmit} className="space-y-5">
                         <div>
-                            <label className="block text-[10px] font-black text-[rgba(255,255,255,0.5)] uppercase tracking-widest mb-2 ml-1">Full Identity</label>
+                            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                                Full Name
+                            </label>
                             <div className="relative">
-                                <UserIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-[rgba(255,255,255,0.2)]" size={18} />
+                                <UserIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={17} />
                                 <input
                                     type="text"
-                                    placeholder="Enter your name"
+                                    placeholder="Enter your full name"
                                     value={formData.name}
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    className="input-field pl-12"
+                                    className="input-field pl-10"
                                     required
                                 />
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-[10px] font-black text-[rgba(255,255,255,0.5)] uppercase tracking-widest mb-2 ml-1">Phone Terminal</label>
+                            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                                Phone Number
+                            </label>
                             <div className="relative">
-                                <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-[rgba(255,255,255,0.2)]" size={18} />
+                                <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={17} />
                                 <input
                                     type="text"
-                                    placeholder="+91 00000 00000"
+                                    placeholder="+91 98765 43210"
                                     value={formData.phone}
                                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                    className="input-field pl-12"
+                                    className="input-field pl-10"
                                     required
                                 />
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-[10px] font-black text-[rgba(255,255,255,0.5)] uppercase tracking-widest mb-2 ml-1">Security Key</label>
+                            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                                Security Password
+                            </label>
                             <div className="relative">
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-[rgba(255,255,255,0.2)]" size={18} />
+                                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={17} />
                                 <input
                                     type="password"
                                     placeholder="••••••••"
                                     value={formData.password}
                                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                    className="input-field pl-12"
+                                    className="input-field pl-10"
                                     required
                                 />
                             </div>
                         </div>
 
                         {error && (
-                            <div className="flex items-center gap-3 bg-rose-500/10 text-rose-500 p-4 rounded-xl border border-rose-500/20 text-xs font-bold uppercase tracking-widest leading-relaxed">
-                                {error}
+                            <div className="flex items-center gap-2.5 bg-rose-50 text-rose-700 p-3.5 rounded-xl border border-rose-200 text-xs font-semibold">
+                                <span className="w-1.5 h-1.5 rounded-full bg-rose-600"></span>
+                                <span>{error}</span>
                             </div>
                         )}
 
                         {success && (
-                            <div className="flex items-center gap-3 bg-[#4f46e5]/10 text-[#4f46e5] p-4 rounded-xl border border-[#4f46e5]/20 font-bold uppercase tracking-widest text-xs text-center justify-center">
-                                Identity Synchronized! Redirecting...
+                            <div className="flex items-center gap-2.5 bg-emerald-50 text-emerald-700 p-3.5 rounded-xl border border-emerald-200 text-xs font-semibold justify-center">
+                                <Sparkles size={16} className="text-emerald-600" />
+                                <span>Account Registered! Redirecting to login...</span>
                             </div>
                         )}
 
                         <button 
                             type="submit" 
-                            className="w-full btn-primary py-4 flex items-center justify-center gap-3"
+                            disabled={loading || success}
+                            className="w-full btn-primary py-3.5 mt-2"
                         >
-                            <span>Initialize Registration</span>
-                            <Sparkles size={18} />
+                            {loading ? 'Creating Account...' : (
+                                <>
+                                    <span>Complete Registration</span>
+                                    <ArrowRight size={16} />
+                                </>
+                            )}
                         </button>
                     </form>
                 </div>

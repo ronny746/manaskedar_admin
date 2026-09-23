@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'https://back.manaskedar.com/api',
+    baseURL: import.meta.env.VITE_API_URL || 'https://back.manaskedar.com/api',
 });
 
 // Add interceptor to attach token automatically
