@@ -6,7 +6,7 @@ import {
     ArrowLeft, UploadCloud, Film, Video, Music, Image as ImageIcon, 
     Sparkles, CheckCircle2, AlertCircle, X, Play, Clock, Star, 
     Globe, Tag, Eye, RefreshCw, FolderArchive, Link as LinkIcon, 
-    Check, Plus, CheckCircle, ShieldCheck
+    Check, Plus, CheckCircle, ShieldCheck, Bell, Radio
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import MediaPicker from '../components/MediaPicker';
@@ -35,6 +35,7 @@ const AddMedia = () => {
         language: 'Hindi',
         tags: ['Trending'],
         isPremium: false,
+        notifyUsers: true,
         rating: '4.8',
         publishingYear: new Date().getFullYear().toString(),
     });
@@ -296,6 +297,7 @@ const AddMedia = () => {
                 language: formData.language,
                 tags: formData.tags,
                 isPremium: formData.isPremium,
+                notifyUsers: formData.notifyUsers,
                 rating: formData.rating,
                 publishingYear: formData.publishingYear,
             };
@@ -847,6 +849,46 @@ const AddMedia = () => {
                                 onChange={() => {}} // Handled by parent div
                                 className="w-4 h-4 accent-amber-500 pointer-events-none"
                             />
+                        </div>
+
+                        {/* Push Notification Broadcast Toggle */}
+                        <div 
+                            onClick={() => setFormData(prev => ({ ...prev, notifyUsers: !prev.notifyUsers }))}
+                            className={`p-3.5 rounded-xl border cursor-pointer transition-all flex flex-col gap-2 ${
+                                formData.notifyUsers 
+                                    ? 'bg-indigo-50/90 border-indigo-200 text-indigo-950 shadow-sm' 
+                                    : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100/70'
+                            }`}
+                        >
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2.5">
+                                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${formData.notifyUsers ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-500'}`}>
+                                        <Bell size={16} />
+                                    </div>
+                                    <div>
+                                        <p className="text-xs font-bold flex items-center gap-1.5">
+                                            Notify All Users
+                                            {formData.notifyUsers && <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-indigo-600 text-white">ON</span>}
+                                        </p>
+                                        <p className="text-[10px] text-slate-500">Send push notification to mobile devices</p>
+                                    </div>
+                                </div>
+                                <input 
+                                    type="checkbox" 
+                                    checked={formData.notifyUsers} 
+                                    onChange={() => {}} 
+                                    className="w-4 h-4 accent-indigo-600 pointer-events-none"
+                                />
+                            </div>
+                            {formData.notifyUsers && (
+                                <div className="mt-1 p-2.5 rounded-lg bg-indigo-100/70 border border-indigo-200 text-[11px] text-indigo-900 flex items-start gap-2">
+                                    <Sparkles size={13} className="text-indigo-600 shrink-0 mt-0.5" />
+                                    <div>
+                                        <span className="font-bold text-indigo-950">Notification Preview: </span>
+                                        <span className="italic">&quot;✨ New {formData.type.toUpperCase()}: {formData.title || 'Sacred Content'}&quot;</span>
+                                    </div>
+                                </div>
+                            )}
                         </div>
 
                         {/* Language */}
